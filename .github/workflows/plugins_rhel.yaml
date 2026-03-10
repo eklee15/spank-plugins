@@ -1,12 +1,21 @@
 ---
+# This workflow defines the CI pipeline for pull requests to the main branch.
+# Other workflows are called as jobs, preferably in parallel. The jobs annotated with the needs keyword will run sequentially.
+#
+# Workflow inputs:
+# - None
+#
+# Workflow artifacts produced:
+# - qrmi-wheels artifact (uploaded in the build-wheels job)
+#
+# Workflow dependencies:
+# - All reusable workflows called in the jobs section
+
 name: Check QRMI Slurm Plugins for RHEL
 env: 
   ARCH: x86_64
 on:
   workflow_dispatch:  # Allows manual trigger from GitHub UI
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -34,16 +43,11 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          #sudo dnf update -y
-          sudo dnf install -y clang-tools-extra
+          sudo dnf update -y
+          sudo dnf makecache
+          sudo dnf install -y clang-tools-extra dnf-plugins-core
           sudo dnf install -y epel-release
           sudo dnf install -y openssl-libs openssl-devel libzip-devel pax-utils
-
-      - name: Install Build Dependencies
-        run: |
-          sudo dnf makecache
-          sudo dnf -y install clang-tools-extra
-          sudo dnf -y install dnf-plugins-core epel-release
           sudo dnf -y install --nobest --exclude='*.i686' autoconf automake autoconf bzip2 freeipmi-devel dbus-devel gcc gcc-c++ git gtk2-devel hdf5-devel http-parser-devel hwloc-devel json-c-devel libcurl-devel libyaml-devel lua-devel lz4-devel make man2html mariadb-devel munge munge-devel ncurses-devel numactl-devel openssl-devel pam-devel perl python3.12 python3.12-devel readline-devel rpm-build rpmdevtools rrdtool-devel wget libjwt libjwt-devel
           sudo dnf clean all
           sudo rm -rf /var/cache/dnf
