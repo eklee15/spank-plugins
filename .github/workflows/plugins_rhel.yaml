@@ -77,8 +77,6 @@ jobs:
         with:
           toolchain: stable
           components: rustfmt, clippy
-          timeout_minutes: 3
-          max_attempts: 3          
 
       - name: Build skeleton
         working-directory: plugins/skeleton
