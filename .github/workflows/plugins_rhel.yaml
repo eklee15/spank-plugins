@@ -19,12 +19,12 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents:
 
 jobs:
   build_lint_test:
     name: RHEL Build, Lint & Test
-    runs-on: rhel-ek ${{ matrix.os }}
+    runs-on: rhel-ek ${{ matrix.slurm-version }}
     strategy:
       matrix:
         slurm-version: ['24.11.7','25.05.3','25.11.3']
