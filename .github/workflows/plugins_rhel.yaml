@@ -24,7 +24,7 @@ permissions:
 jobs:
   build_lint_test:
     name: RHEL Build, Lint & Test
-    runs-on: rhel-ek ${{ matrix.slurm-version }}
+    runs-on: rhel-ek
     strategy:
       matrix:
         slurm-version: ['24.11.7','25.05.3','25.11.3']
